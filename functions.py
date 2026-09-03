@@ -1,6 +1,7 @@
 from cmath import cos
 from operator import eq
 import re
+import time
 from turtle import st
 
 
@@ -113,9 +114,150 @@ def calcSellingPriceForDesiredProfit(cost, profitRate):
     return sellingPriceForDesiredProfit
 
 def calcCostFromSellingPrice(sellingPriceForDesiredProfit, profitRate):
-        costFromSellingPrice = sellingPriceForDesiredProfit / (1 + profitRate)
-        return costFromSellingPrice
+    costFromSellingPrice = sellingPriceForDesiredProfit / (1 + profitRate)
+    return costFromSellingPrice
 
 def calcLossRate(loss, cost):
     lossRate = loss / cost * 100
     return lossRate
+
+def calcSimpleInterest(principal, rate, time):
+    simpleInterest = principal * rate * time
+    return simpleInterest
+
+def calcPrincipal(simpleInterest, rate, time):
+    principal = simpleInterest / (rate * time)
+    return principal
+
+def calcRateFromSimpleInterest(simpleInterest, principal, time):
+    rateFromSimpleInterest = simpleInterest / (principal * time)
+    return rateFromSimpleInterest
+
+def calcTimeFromSimpleInterest(simpleInterest, principal, rate):
+    timeFromSimpleInterest = simpleInterest / (principal * rate)
+    return timeFromSimpleInterest
+
+def calcMaturityValue(principal, simpleInterest):
+    maturityValue = principal + simpleInterest
+    return maturityValue
+
+def calcMaturityValueDirectly(principal, rate, time):
+    maturityValueDirectly = principal * (1 + rate * time)
+    return maturityValueDirectly
+
+def calcCompoundAmount(principal, rate, time):
+    compoundAmount = principal * (1 + rate) ** time
+    return compoundAmount
+
+def calcCompoundInterest(compoundAmount, principal):
+    compoundInterest = compoundAmount - principal
+    return compoundInterest
+
+def calcPrincipalFromCompoundAmount(compoundAmount, rate, time, n):
+    principalFromCompoundAmount = compoundAmount / (1 + rate/n) ** (n*time)
+    return principalFromCompoundAmount
+
+def calcFutureCompoundValue(presentValue, rate, time, n):
+    futureCompoundValue = presentValue * (1 + rate/n) ** (n*time)
+    return futureCompoundValue
+
+def calcPresentCompoundValue(futureValue, rate, time, n):
+    presentCompoundValue = futureValue / (1 + rate/n) ** (n*time)
+    return presentCompoundValue
+
+def calcEffectiveAnualRate(rate, n):
+    effectiveAnualRate = (1 + rate/n) ** n - 1
+    return effectiveAnualRate
+
+def calcFutureValueOfOrdinaryAnnuity(payment, rate, time, n, i):
+    futureValueOfOrdinaryAnnuity = payment * ((1 + i) ** n - 1) / i
+    return futureValueOfOrdinaryAnnuity
+
+def calcPresentValueOfOrdinaryAnnuity(payment,n, i):
+    presentValueOfOrdinaryAnnuity = payment * (1 - (1 + i) ** -n) / i
+    return presentValueOfOrdinaryAnnuity
+
+def calcFutureValueOfAnnuityDue(payment, n, i):
+    futureValueOfAnnuityDue = payment * ((1 + i) ** n - 1) / i * (1 + i)
+    return futureValueOfAnnuityDue
+
+def calcPresentValueOfAnnuityDue(payment, n, i):
+    presentValueOfAnnuityDue = payment * (1 - (1 + i) ** -n) / i * (1 + i)
+    return presentValueOfAnnuityDue 
+
+def calcRegularPayment(futureValues, n, i):
+    regularPayment = futureValues * i / ((1 + i) ** n - 1)
+    return regularPayment
+
+def calcPeriodicalLoanPayment(presentvalue, n, i):
+    periodicalLoanPayment = presentvalue * i / (1 - (1 + i) ** -n)
+    return periodicalLoanPayment
+
+def calcLoanPayment(presentvalue, n, i):
+    loanPayment = presentvalue * i / (1 - (1 + i) ** -n)
+    return loanPayment
+
+def calcTotalPayment(loanPayment, n):
+    totalPayment = loanPayment * n
+    return totalPayment
+
+def calcTotalInterest(totalPayment, principal):
+    totalInterest = totalPayment - principal
+    return totalInterest
+
+def calcOutstandingBalance(principal, payment, k, i):
+    outstandingBalance = principal * (1 + i) ** k - payment * ((1 + i) ** k - 1) / i
+    return outstandingBalance
+
+def calcFutureValue(presentValue, i, n):
+    futureValue = presentValue * (1 + i) ** n
+    return futureValue
+
+def calcPresentValue(futureValue, i, n):
+    presentValue = futureValue / (1 + i) ** n
+    return presentValue
+
+def calcSimpleInterestValue(presentValue, rate, time):
+    simpleInterestValue = presentValue * (1 + rate * time)
+    return simpleInterestValue
+
+def compoundInterestFutureValue(presentValue, rate, time, n):
+    compoundInterestValue = presentValue * (1 + rate/n) ** (n*time)
+    return compoundInterestValue
+
+def calcStraightLineDepreciation(cost, salvageValue, usefulLife):
+    straightLineDepreciation = (cost - salvageValue) / usefulLife
+    return straightLineDepreciation
+
+def calcBookValue(cost, depreciation, time):
+    bookValue = cost - depreciation * time
+    return bookValue
+
+def calcTotalDepreciation(cost, salvageValue):
+    totalDepreciation = cost - salvageValue
+    return totalDepreciation
+
+def calcDecliningBalanceDepreciation(bookValue, rate):
+    decliningBalanceDepreciation = bookValue * rate
+    return decliningBalanceDepreciation     
+
+
+def calcDecliningBalanceBookValue(cost, rate, time):
+    decliningBalanceBookValue = cost * (1 - rate) ** time
+    return decliningBalanceBookValue
+
+def calcCommision(sales, rate):
+    commission = sales * rate
+    return commission
+
+def calcTotalEarnings(salary, commission):
+    totalEarnings = salary + commission
+    return totalEarnings
+
+def calcCommissionRate(commission, sales):
+    commissionRate = commission / sales * 100
+    return commissionRate
+
+def calcSales(commission, commissionRate):
+    sales = commission / commissionRate
+    return sales
