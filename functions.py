@@ -1,9 +1,5 @@
-from cmath import cos
-from operator import eq
-import re
-import time
-from turtle import st
-
+import statistics
+import numpy_financial
 
 def calcPercentage(rate, base):
     percentage = rate*base
@@ -391,7 +387,7 @@ def calcPopulationStandardDeviation(variance):
 
 def calcPopulationMean(values):
     populationMean = sum(values) / len(values)
-    return calcPopulationMean
+    return populationMean
 
 def calcSampleMean(sample):
     sampleMean = sum(sample) / len(sample)
@@ -414,5 +410,125 @@ def calcMultiplicationRule(p_a, p_b):
     return multiplicationRule
 
 def calcConditionalProbability(p_a_and_b, p_b):
-    probability = p_a_and_b / p_b
-    return probability
+    ConditionalProbability = p_a_and_b / p_b
+    return ConditionalProbability
+
+def calcDecimalToPercentage(decimal):
+    percentage = decimal * 100
+    return percentage
+
+def calcPercentageToDecimal(percentage):
+    decimal = percentage / 100
+    return decimal
+
+def calcPercentageToFraction(percentage):
+    fraction = percentage / 100
+    return fraction
+
+def calcFractionToPercentage(fraction):
+    percentage = fraction * 100
+    return percentage
+
+def calcMonthlyRate(annualRate):
+    monthlyRate = annualRate / 12
+    return monthlyRate
+
+def calcAnnualRate(monthlyRate):
+    annualRate = monthlyRate * 12
+    return annualRate
+
+def calcWeeklyRate(annualRate):
+    weeklyRate = annualRate / 52
+    return weeklyRate
+
+def calcQuarterlyRate(annualRate):
+    quarterlyRate = annualRate / 4
+    return quarterlyRate
+
+def calcSemiAnnualRate(annualRate):
+    semiAnnualRate = annualRate / 2
+    return semiAnnualRate
+
+def calcCurrentRatio(currentAssets, currentLiabilities):
+    currentRatio = currentAssets / currentLiabilities
+    return currentRatio
+
+def calcQuickRatio(currentAssets, inventory, currentLiabilities):
+    quickRatio = (currentAssets - inventory) / currentLiabilities
+    return quickRatio
+
+def calcReturnOnInvestment(netProfit, investment):
+    returnOnInvestment = netProfit / investment * 100
+    return returnOnInvestment
+
+def calcReturnOnAssets(netIncome, totalAssets):
+    returnOnAssets = netIncome / totalAssets * 100
+    return returnOnAssets
+
+def calcReturnOnEquity(netIncome, shareholderEquity):
+    returnOnEquity = netIncome / shareholderEquity * 100
+    return returnOnEquity
+
+def calcDebtoEquityRatio(totalDebt, totalEquity):
+    debtToEquityRatio = totalDebt / totalEquity
+    return debtToEquityRatio
+
+def calcNetProfitMargin(netIncome, revenue):
+    netProfitMargin = netIncome / revenue * 100
+    return netProfitMargin
+
+def calcNetPresentValue(cashFlows, discountRate, initialInvestment):
+    npv = sum(cf / (1 + discountRate) ** t for t, cf in enumerate(cashFlows, start=1)) - initialInvestment
+    return npv
+
+def calcInternalRateOfReturn(cashFlows, initialInvestment):
+    irr = numpy_financial.irr(cash_flows)
+    return irr
+
+def calcPaybackPeriod(initialInvestment, annualCashInflows):
+    paybackPeriod = initialInvestment / annualCashInflows
+    return paybackPeriod
+
+def calcDividendYield(annualDividends, sharePrice):
+    dividendYield = annualDividends / sharePrice * 100
+    return dividendYield
+
+def calcCurrentBondYield(annualCoupon, bondPrice):
+    bondYield = annualCoupon / bondPrice * 100
+    return bondYield
+
+def calcInsurancePremium(faceValue, rate):
+    premium = faceValue * rate
+    return premium
+
+def calcShortRatePremium(annualPremium, shortRate):
+    shortRatePremium = annualPremium * shortRate
+    return shortRatePremium
+
+def calcMaturityValue(principal, rate, time):
+    maturityValue = principal * (1 + rate * time)
+    return maturityValue
+
+def calcBankDiscount(maturityValue, discountRate, time):
+    bankDiscount = maturityValue * discountRate * time
+    return bankDiscount
+
+def calcProceeds(maturityValue, discount):
+    proceeds = maturityValue - discount
+    return proceeds
+
+def calcMedian(values):
+    median = statistics.median(values)
+    return median
+
+def calcMode(values):
+    mode = statistics.mode(values)
+    return mode
+
+def calcSampleVariance(values):
+    sampleVariance = statistics.variance(values)
+    return sampleVariance
+
+def calcSampleStandardDeviation(values):
+    sampleStandardDeviation = statistics.stdev(values)
+    return sampleStandardDeviation
