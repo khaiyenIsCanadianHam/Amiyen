@@ -241,7 +241,6 @@ def calcDecliningBalanceDepreciation(bookValue, rate):
     decliningBalanceDepreciation = bookValue * rate
     return decliningBalanceDepreciation     
 
-
 def calcDecliningBalanceBookValue(cost, rate, time):
     decliningBalanceBookValue = cost * (1 - rate) ** time
     return decliningBalanceBookValue
@@ -261,3 +260,159 @@ def calcCommissionRate(commission, sales):
 def calcSales(commission, commissionRate):
     sales = commission / commissionRate
     return sales
+
+def calcGrossPay(regularPay, overtimePay, otherEarnings):
+    grossPay = regularPay + overtimePay + otherEarnings
+    return grossPay
+
+def calcRegularPay(hourlyRate, regularHours):
+    regularPay = hourlyRate * regularHours
+    return regularPay
+
+def calcOvertimePay(hourlyRate, overtimeRate, overtimeHours):
+    overtimePay = hourlyRate * overtimeRate * overtimeHours
+    return overtimePay
+
+def calcNetPay(grossPay, totalDeductions):
+    netPay = grossPay - totalDeductions
+    return netPay
+
+def calcTotalDeduction(taxes, contributions, otherDeduction):
+    totalDeduction = taxes, contributions, otherDeduction
+    return totalDeduction
+
+def calcBasicTax(taxableIncome, taxRate):
+    basicTax = taxableIncome * taxRate
+    return basicTax
+
+def calcTaxableIncome(grossIncome, deductions):
+    taxableIncome = grossIncome - deductions
+    return taxableIncome
+
+def calcNetIncome(grossIncome, basicTax, totalDeductions):
+    netIncome = grossIncome - basicTax - totalDeductions
+    return netIncome
+
+def calcContributionMargin(sellingPrice, variableCost):
+    contributionMargin = sellingPrice - variableCost
+    return contributionMargin
+
+def calcContributionMarginRatio(contributionMargin, sellingPrice):
+    contributionMarginRatio = contributionMargin / sellingPrice
+    return contributionMarginRatio
+
+def calcBreakEvenUnits(fixedCost, sellingPrice, variableCost):
+    breakEvenUnits = fixedCost / sellingPrice * variableCost
+    return breakEvenUnits
+
+def calcBreakEvenSales(fixedCost, contributionMarginRatio):
+    breakEvenSales = fixedCost / contributionMarginRatio
+    return breakEvenSales
+
+def calcProfit(totalRevenue, totalCost):
+    profit = totalRevenue - totalCost
+    return profit
+
+def calcTotalRevenue(sellingPrice, quantity):
+    totalRevenue = sellingPrice * quantity
+    return totalRevenue
+
+def calcTotalCost(fixedCost, variableCost):
+    totalCost = fixedCost + variableCost
+    return totalCost
+
+def calcRevenue(price, quantity):
+    revenue = price * quantity
+    return revenue
+
+def calcTotalCost1(variableCostPerUnit, quantity):
+    totalCost1 = variableCostPerUnit * quantity
+    return totalCost1
+
+def calcProfit1(revenue, totalCost1):
+    profit1 = revenue - totalCost1
+    return profit1
+
+def calcAverageCost(totalCost1, quantity):
+    averageCost = totalCost1 / quantity
+    return averageCost
+
+def calcAverageRevenue(revenue, quantity):
+    averageRevenue = revenue / quantity
+    return averageRevenue
+
+def calcUnitProfit(profit, quantity):
+    unitProfit = profit / quantity
+    return unitProfit
+
+def calcRatio(a,b):
+    ratio = a / b
+    return ratio
+
+def calcProportion(a, b, c, d):
+    proportion = a / b == c / d
+    return proportion
+
+def calcCrossMultiplication(a, b, c, d):
+    crossMultiplication = a * b == c * d
+    return crossMultiplication
+
+def calcUnitRate(units, quantity):
+    unitRate = quantity / units
+    return unitRate
+
+def calcDirectVariation(k, x):
+    y = k * x
+    return y
+
+def calcInverseVariation(k, x):
+    y = k / x
+    return y
+
+def calcMean(values):
+    mean = sum(values) / len(values)
+    return mean
+
+def calcWeightedMean(data):
+    weightedMean = sum(w*x for w,x in data) / sum(w for w,x in data)
+    return weightedMean
+
+def calcRange(values):
+    rangeValue = max(values) - min(values)
+    return rangeValue
+
+def calcPopulationVariance(mean, values):
+    variance = sum((x-mean)**2 for x in values) / len(values)
+    return variance
+
+def calcPopulationStandardDeviation(variance):
+    populationStandardDeviation = variance ** 0.5
+    return populationStandardDeviation
+
+def calcPopulationMean(values):
+    populationMean = sum(values) / len(values)
+    return calcPopulationMean
+
+def calcSampleMean(sample):
+    sampleMean = sum(sample) / len(sample)
+    return sampleMean
+
+def calcBasicProbability(favorable, total):
+    probability = favorable / total
+    return probability
+
+def calcComplement(probability):
+    complement = 1 - probability
+    return complement
+
+def calcadditionRule(p_a, p_b, p_a_and_b):
+    additionRule = p_a + p_b - p_a_and_b
+    return additionRule
+
+def calcMultiplicationRule(p_a, p_b):
+    multiplicationRule = p_a * p_b
+    return multiplicationRule
+
+def calcConditionalProbability(p_a_and_b, p_b):
+    probability = p_a_and_b / p_b
+    return probability
