@@ -1,2 +1,5 @@
 statistics
 numpy_financial
+pathlib
+flask
+sqlite3
