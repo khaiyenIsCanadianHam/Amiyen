@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>My App</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Welcome to My App</h1>
+    <p>This is the basic dashboard page.</p>
+    <table>
+        <tr>
+            <th>Percentage</th>
+            <th>Rate</th>
+            <th>Base</th>
+            <th>Percentage Change</th>
+            <th>Percentage Increase</th>
+            <th>Percentage Decrease</th>
+            <th>Date</th>
+        </tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+    </table>
+    <form action="/" method="POST">
+        <input type="number" name="percentage" step="any">
+        <input type="number" name="rate" step="any">
+        <input type="number" name="base" step="any">
+        <input type="number" name="percentageChange" step="any">
+        <input type="number" name="percentageIncrease" step="any">
+        <input type="number" name="percentageDecrease" step="any">
+        <input type="submit" value="Add Values">
+    </form>
+{% endblock %}
