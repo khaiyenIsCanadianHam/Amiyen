@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Depreciation - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Depreciation</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Cost</th>
+            <th>Salvage Value</th>
+            <th>Useful Life</th>
+            <th>Time</th>
+            <th>Declining Rate</th>
+            <th>Straight Line Depreciation</th>
+            <th>Book Value</th>
+            <th>Total Depreciation</th>
+            <th>Declining-Balance Depreciation</th>
+            <th>Declining-Balance Book Value</th>
+            <th>Date</th>
+        </tr>
+        {% for row in dep %}
+            <tr>
+                <td>{% if row['cost'] is not none %}{{ row['cost']|round(4) if row['cost'] is number else row['cost'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['salvageValue'] is not none %}{{ row['salvageValue']|round(4) if row['salvageValue'] is number else row['salvageValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['usefulLife'] is not none %}{{ row['usefulLife']|round(4) if row['usefulLife'] is number else row['usefulLife'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['time'] is not none %}{{ row['time']|round(4) if row['time'] is number else row['time'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['decliningRate'] is not none %}{{ row['decliningRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['straightLineDepreciation'] is not none %}{{ row['straightLineDepreciation']|round(4) if row['straightLineDepreciation'] is number else row['straightLineDepreciation'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['bookValue'] is not none %}{{ row['bookValue']|round(4) if row['bookValue'] is number else row['bookValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalDepreciation'] is not none %}{{ row['totalDepreciation']|round(4) if row['totalDepreciation'] is number else row['totalDepreciation'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['decliningBalanceDepreciation'] is not none %}{{ row['decliningBalanceDepreciation']|round(4) if row['decliningBalanceDepreciation'] is number else row['decliningBalanceDepreciation'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['decliningBalanceBookValue'] is not none %}{{ row['decliningBalanceBookValue']|round(4) if row['decliningBalanceBookValue'] is number else row['decliningBalanceBookValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('dep') }}" method="POST">
+        <input type="number" name="cost" step="any" placeholder="Cost" required>
+        <input type="number" name="salvageValue" step="any" placeholder="Salvage Value" required>
+        <input type="number" name="usefulLife" step="any" placeholder="Useful Life" required>
+        <input type="number" name="time" step="any" placeholder="Time" required>
+        <input type="number" name="decliningRate" step="any" placeholder="Declining Rate" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

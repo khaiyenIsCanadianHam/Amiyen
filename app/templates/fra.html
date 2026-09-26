@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Financial Ratios - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Financial Ratios</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Current Assets</th>
+            <th>Current Liabilities</th>
+            <th>Inventory</th>
+            <th>Net Profit</th>
+            <th>Investment</th>
+            <th>Net Income</th>
+            <th>Total Assets</th>
+            <th>Shareholder Equity</th>
+            <th>Total Debt</th>
+            <th>Total Equity</th>
+            <th>Revenue</th>
+            <th>Current Ratio</th>
+            <th>Quick Ratio</th>
+            <th>Return on Investment (ROI)</th>
+            <th>Return on Assets (ROA)</th>
+            <th>Return on Equity (ROE)</th>
+            <th>Debt-to-Equity Ratio</th>
+            <th>Net Profit Margin</th>
+            <th>Date</th>
+        </tr>
+        {% for row in fra %}
+            <tr>
+                <td>{% if row['currentAssets'] is not none %}{{ row['currentAssets']|round(4) if row['currentAssets'] is number else row['currentAssets'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['currentLiabilities'] is not none %}{{ row['currentLiabilities']|round(4) if row['currentLiabilities'] is number else row['currentLiabilities'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['inventory'] is not none %}{{ row['inventory']|round(4) if row['inventory'] is number else row['inventory'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['netProfit'] is not none %}{{ row['netProfit']|round(4) if row['netProfit'] is number else row['netProfit'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['investment'] is not none %}{{ row['investment']|round(4) if row['investment'] is number else row['investment'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['netIncome'] is not none %}{{ row['netIncome']|round(4) if row['netIncome'] is number else row['netIncome'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalAssets'] is not none %}{{ row['totalAssets']|round(4) if row['totalAssets'] is number else row['totalAssets'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['shareholderEquity'] is not none %}{{ row['shareholderEquity']|round(4) if row['shareholderEquity'] is number else row['shareholderEquity'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalDebt'] is not none %}{{ row['totalDebt']|round(4) if row['totalDebt'] is number else row['totalDebt'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalEquity'] is not none %}{{ row['totalEquity']|round(4) if row['totalEquity'] is number else row['totalEquity'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['revenue'] is not none %}{{ row['revenue']|round(4) if row['revenue'] is number else row['revenue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['currentRatio'] is not none %}{{ row['currentRatio']|round(4) if row['currentRatio'] is number else row['currentRatio'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['quickRatio'] is not none %}{{ row['quickRatio']|round(4) if row['quickRatio'] is number else row['quickRatio'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['returnOnInvestment'] is not none %}{{ row['returnOnInvestment']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['returnOnAssets'] is not none %}{{ row['returnOnAssets']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['returnOnEquity'] is not none %}{{ row['returnOnEquity']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['debtToEquityRatio'] is not none %}{{ row['debtToEquityRatio']|round(4) if row['debtToEquityRatio'] is number else row['debtToEquityRatio'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['netProfitMargin'] is not none %}{{ row['netProfitMargin']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('fra') }}" method="POST">
+        <input type="number" name="currentAssets" step="any" placeholder="Current Assets" required>
+        <input type="number" name="currentLiabilities" step="any" placeholder="Current Liabilities" required>
+        <input type="number" name="inventory" step="any" placeholder="Inventory" required>
+        <input type="number" name="netProfit" step="any" placeholder="Net Profit" required>
+        <input type="number" name="investment" step="any" placeholder="Investment" required>
+        <input type="number" name="netIncome" step="any" placeholder="Net Income" required>
+        <input type="number" name="totalAssets" step="any" placeholder="Total Assets" required>
+        <input type="number" name="shareholderEquity" step="any" placeholder="Shareholder Equity" required>
+        <input type="number" name="totalDebt" step="any" placeholder="Total Debt" required>
+        <input type="number" name="totalEquity" step="any" placeholder="Total Equity" required>
+        <input type="number" name="revenue" step="any" placeholder="Revenue" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

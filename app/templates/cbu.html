@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Capital Budgeting - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Capital Budgeting</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Initial Investment</th>
+            <th>Annual Cash Flow</th>
+            <th>Discount Rate</th>
+            <th>Future Cash Flows</th>
+            <th>Net Present Value (NPV)</th>
+            <th>Internal Rate of Return (IRR)</th>
+            <th>Payback Period</th>
+            <th>Date</th>
+        </tr>
+        {% for row in cbu %}
+            <tr>
+                <td>{% if row['initialInvestment'] is not none %}{{ row['initialInvestment']|round(4) if row['initialInvestment'] is number else row['initialInvestment'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['annualCashFlow'] is not none %}{{ row['annualCashFlow']|round(4) if row['annualCashFlow'] is number else row['annualCashFlow'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['discountRate'] is not none %}{{ row['discountRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{{ row['cashFlows'] if row['cashFlows'] is not none else 'N/A' }}</td>
+                <td>{% if row['netPresentValue'] is not none %}{{ row['netPresentValue']|round(4) if row['netPresentValue'] is number else row['netPresentValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['internalRateOfReturn'] is not none %}{{ row['internalRateOfReturn']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['paybackPeriod'] is not none %}{{ row['paybackPeriod']|round(4) if row['paybackPeriod'] is number else row['paybackPeriod'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('cbu') }}" method="POST">
+        <input type="number" name="initialInvestment" step="any" placeholder="Initial Investment" required>
+        <input type="number" name="annualCashFlow" step="any" placeholder="Annual Cash Flow" required>
+        <input type="number" name="discountRate" step="any" placeholder="Discount Rate" required>
+        <input type="text" name="cashFlows" placeholder="Future Cash Flows: 100, 120, 150" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

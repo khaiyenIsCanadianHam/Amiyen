@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Annuities - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Annuities</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Payment</th>
+            <th>Periodic Rate</th>
+            <th>Periods</th>
+            <th>Future Value of Ordinary Annuity</th>
+            <th>Present Value of Ordinary Annuity</th>
+            <th>Future Value of Annuity Due</th>
+            <th>Present Value of Annuity Due</th>
+            <th>Regular Payment</th>
+            <th>Date</th>
+        </tr>
+        {% for row in ann %}
+            <tr>
+                <td>{% if row['payment'] is not none %}{{ row['payment']|round(4) if row['payment'] is number else row['payment'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['periodicRate'] is not none %}{{ row['periodicRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['periods'] is not none %}{{ row['periods']|round(4) if row['periods'] is number else row['periods'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['futureValueOfOrdinaryAnnuity'] is not none %}{{ row['futureValueOfOrdinaryAnnuity']|round(4) if row['futureValueOfOrdinaryAnnuity'] is number else row['futureValueOfOrdinaryAnnuity'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['presentValueOfOrdinaryAnnuity'] is not none %}{{ row['presentValueOfOrdinaryAnnuity']|round(4) if row['presentValueOfOrdinaryAnnuity'] is number else row['presentValueOfOrdinaryAnnuity'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['futureValueOfAnnuityDue'] is not none %}{{ row['futureValueOfAnnuityDue']|round(4) if row['futureValueOfAnnuityDue'] is number else row['futureValueOfAnnuityDue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['presentValueOfAnnuityDue'] is not none %}{{ row['presentValueOfAnnuityDue']|round(4) if row['presentValueOfAnnuityDue'] is number else row['presentValueOfAnnuityDue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['regularPayment'] is not none %}{{ row['regularPayment']|round(4) if row['regularPayment'] is number else row['regularPayment'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('ann') }}" method="POST">
+        <input type="number" name="payment" step="any" placeholder="Payment" required>
+        <input type="number" name="periodicRate" step="any" placeholder="Periodic Rate" required>
+        <input type="number" name="periods" step="any" placeholder="Periods" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

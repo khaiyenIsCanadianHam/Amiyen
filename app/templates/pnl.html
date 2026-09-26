@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Profit and Loss - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Profit and Loss</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Cost</th>
+            <th>Selling Price</th>
+            <th>Desired Profit Rate</th>
+            <th>Profit</th>
+            <th>Loss</th>
+            <th>Profit Rate On Cost</th>
+            <th>Profit Margin</th>
+            <th>Selling Price for Desired Profit</th>
+            <th>Cost From Selling Price</th>
+            <th>Loss Rate</th>
+            <th>Date</th>
+        </tr>
+        {% for row in pnl %}
+            <tr>
+                <td>{% if row['cost'] is not none %}{{ row['cost']|round(4) if row['cost'] is number else row['cost'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['sellingPrice'] is not none %}{{ row['sellingPrice']|round(4) if row['sellingPrice'] is number else row['sellingPrice'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['desiredProfitRate'] is not none %}{{ row['desiredProfitRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['profit'] is not none %}{{ row['profit']|round(4) if row['profit'] is number else row['profit'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['loss'] is not none %}{{ row['loss']|round(4) if row['loss'] is number else row['loss'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['profitRateOnCost'] is not none %}{{ row['profitRateOnCost']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['profitMargin'] is not none %}{{ row['profitMargin']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['sellingPriceForDesiredProfit'] is not none %}{{ row['sellingPriceForDesiredProfit']|round(4) if row['sellingPriceForDesiredProfit'] is number else row['sellingPriceForDesiredProfit'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['costFromSellingPrice'] is not none %}{{ row['costFromSellingPrice']|round(4) if row['costFromSellingPrice'] is number else row['costFromSellingPrice'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['lossRate'] is not none %}{{ row['lossRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('pnl') }}" method="POST">
+        <input type="number" name="cost" step="any" placeholder="Cost" required>
+        <input type="number" name="sellingPrice" step="any" placeholder="Selling Price" required>
+        <input type="number" name="desiredProfitRate" step="any" placeholder="Desired Profit Rate" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

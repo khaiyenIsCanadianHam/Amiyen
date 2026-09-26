@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Probability - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Probability</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Favorable</th>
+            <th>Total</th>
+            <th>P(A)</th>
+            <th>P(B)</th>
+            <th>P(A∩B)</th>
+            <th>Basic Probability</th>
+            <th>Complement</th>
+            <th>Addition Rule</th>
+            <th>Multiplication Rule</th>
+            <th>Conditional Probability</th>
+            <th>Date</th>
+        </tr>
+        {% for row in pro %}
+            <tr>
+                <td>{% if row['favorable'] is not none %}{{ row['favorable']|round(4) if row['favorable'] is number else row['favorable'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['total'] is not none %}{{ row['total']|round(4) if row['total'] is number else row['total'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['pA'] is not none %}{{ row['pA']|round(4) if row['pA'] is number else row['pA'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['pB'] is not none %}{{ row['pB']|round(4) if row['pB'] is number else row['pB'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['pAandB'] is not none %}{{ row['pAandB']|round(4) if row['pAandB'] is number else row['pAandB'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['basicProbability'] is not none %}{{ row['basicProbability']|round(4) if row['basicProbability'] is number else row['basicProbability'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['complement'] is not none %}{{ row['complement']|round(4) if row['complement'] is number else row['complement'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['additionRule'] is not none %}{{ row['additionRule']|round(4) if row['additionRule'] is number else row['additionRule'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['multiplicationRule'] is not none %}{{ row['multiplicationRule']|round(4) if row['multiplicationRule'] is number else row['multiplicationRule'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['conditionalProbability'] is not none %}{{ row['conditionalProbability']|round(4) if row['conditionalProbability'] is number else row['conditionalProbability'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('pro') }}" method="POST">
+        <input type="number" name="favorable" step="any" placeholder="Favorable" required>
+        <input type="number" name="total" step="any" placeholder="Total" required>
+        <input type="number" name="pA" step="any" placeholder="P(A)" required>
+        <input type="number" name="pB" step="any" placeholder="P(B)" required>
+        <input type="number" name="pAandB" step="any" placeholder="P(A∩B)" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

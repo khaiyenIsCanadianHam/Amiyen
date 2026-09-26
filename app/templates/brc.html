@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Business Revenue and Cost - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Business Revenue and Cost</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Fixed Cost</th>
+            <th>Variable Cost per Unit</th>
+            <th>Revenue</th>
+            <th>Total Cost</th>
+            <th>Variable Cost</th>
+            <th>Profit</th>
+            <th>Average Cost</th>
+            <th>Average Revenue</th>
+            <th>Unit Profit</th>
+            <th>Date</th>
+        </tr>
+        {% for row in brc %}
+            <tr>
+                <td>{% if row['price'] is not none %}{{ row['price']|round(4) if row['price'] is number else row['price'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['quantity'] is not none %}{{ row['quantity']|round(4) if row['quantity'] is number else row['quantity'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['fixedCost'] is not none %}{{ row['fixedCost']|round(4) if row['fixedCost'] is number else row['fixedCost'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['variableCostPerUnit'] is not none %}{{ row['variableCostPerUnit']|round(4) if row['variableCostPerUnit'] is number else row['variableCostPerUnit'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['revenue'] is not none %}{{ row['revenue']|round(4) if row['revenue'] is number else row['revenue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalCost'] is not none %}{{ row['totalCost']|round(4) if row['totalCost'] is number else row['totalCost'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['variableCost'] is not none %}{{ row['variableCost']|round(4) if row['variableCost'] is number else row['variableCost'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['profit'] is not none %}{{ row['profit']|round(4) if row['profit'] is number else row['profit'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['averageCost'] is not none %}{{ row['averageCost']|round(4) if row['averageCost'] is number else row['averageCost'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['averageRevenue'] is not none %}{{ row['averageRevenue']|round(4) if row['averageRevenue'] is number else row['averageRevenue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['unitProfit'] is not none %}{{ row['unitProfit']|round(4) if row['unitProfit'] is number else row['unitProfit'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('brc') }}" method="POST">
+        <input type="number" name="price" step="any" placeholder="Price" required>
+        <input type="number" name="quantity" step="any" placeholder="Quantity" required>
+        <input type="number" name="fixedCost" step="any" placeholder="Fixed Cost" required>
+        <input type="number" name="variableCostPerUnit" step="any" placeholder="Variable Cost per Unit" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

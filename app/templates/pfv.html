@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Present and Future Value - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Present and Future Value</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Input Present Value</th>
+            <th>Rate</th>
+            <th>Periods</th>
+            <th>Time</th>
+            <th>Compounds per Year</th>
+            <th>Future Value</th>
+            <th>Present Value</th>
+            <th>Simple-Interest Future Value</th>
+            <th>Compound-Interest Future Value</th>
+            <th>Date</th>
+        </tr>
+        {% for row in pfv %}
+            <tr>
+                <td>{% if row['inputPresentValue'] is not none %}{{ row['inputPresentValue']|round(4) if row['inputPresentValue'] is number else row['inputPresentValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['rate'] is not none %}{{ row['rate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['periods'] is not none %}{{ row['periods']|round(4) if row['periods'] is number else row['periods'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['time'] is not none %}{{ row['time']|round(4) if row['time'] is number else row['time'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['compoundsPerYear'] is not none %}{{ row['compoundsPerYear']|round(4) if row['compoundsPerYear'] is number else row['compoundsPerYear'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['futureValue'] is not none %}{{ row['futureValue']|round(4) if row['futureValue'] is number else row['futureValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['presentValue'] is not none %}{{ row['presentValue']|round(4) if row['presentValue'] is number else row['presentValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['simpleInterestFutureValue'] is not none %}{{ row['simpleInterestFutureValue']|round(4) if row['simpleInterestFutureValue'] is number else row['simpleInterestFutureValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['compoundInterestFutureValue'] is not none %}{{ row['compoundInterestFutureValue']|round(4) if row['compoundInterestFutureValue'] is number else row['compoundInterestFutureValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('pfv') }}" method="POST">
+        <input type="number" name="presentValue" step="any" placeholder="Present Value" required>
+        <input type="number" name="rate" step="any" placeholder="Rate" required>
+        <input type="number" name="periods" step="any" placeholder="Periods" required>
+        <input type="number" name="time" step="any" placeholder="Time" required>
+        <input type="number" name="compoundsPerYear" step="any" placeholder="Compounds per Year" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

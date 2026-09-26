@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Amiyen Dashboard</title>
+{% endblock %}
+
+{% block body %}
+<section class="global-dashboard">
+    <div class="page-hero">
+        <div>
+            <p class="eyebrow">Amiyen</p>
+            <h1>Overall Dashboard</h1>
+            <p>One view of every calculator module, saved calculation activity, and database usage.</p>
+        </div>
+    </div>
+
+    <div class="summary-grid">
+        <article class="summary-card">
+            <span>Total saved calculations</span>
+            <strong>{{ summary['totalRecords'] }}</strong>
+        </article>
+        <article class="summary-card">
+            <span>Modules with data</span>
+            <strong>{{ summary['modulesWithData'] }} / {{ summary['totalModules'] }}</strong>
+        </article>
+        <article class="summary-card">
+            <span>Most used module</span>
+            <strong>{{ summary['mostUsedModule'] }}</strong>
+        </article>
+        <article class="summary-card">
+            <span>Latest activity</span>
+            <strong>{{ summary['latestActivity'] if summary['latestActivity'] is not none else 'No records yet' }}</strong>
+        </article>
+    </div>
+
+    <div class="chart-grid global-chart-grid">
+        <article class="chart-card">
+            <div class="chart-card-heading">
+                <div>
+                    <p class="eyebrow">Database</p>
+                    <h2>Records by module</h2>
+                </div>
+            </div>
+            <div class="canvas-wrap global-canvas-wrap">
+                <canvas id="module-count-chart" aria-label="Records by calculator module"></canvas>
+            </div>
+        </article>
+
+        <article class="chart-card">
+            <div class="chart-card-heading">
+                <div>
+                    <p class="eyebrow">Activity</p>
+                    <h2>Calculations over time</h2>
+                </div>
+                <span>Last 30 active days</span>
+            </div>
+            <div class="canvas-wrap global-activity-wrap">
+                <canvas id="global-activity-chart" aria-label="Calculations over time"></canvas>
+            </div>
+        </article>
+    </div>
+
+    <div class="module-directory-heading">
+        <div>
+            <p class="eyebrow">Modules</p>
+            <h2>Calculator dashboards</h2>
+        </div>
+    </div>
+
+    <div class="module-grid">
+        {% for module in modules %}
+        <article class="module-card">
+            <div>
+                <h3>{{ module['title'] }}</h3>
+                <p>{{ module['recordCount'] }} saved record{% if module['recordCount'] != 1 %}s{% endif %}</p>
+                <small>Latest: {{ module['latestDate'] if module['latestDate'] is not none else 'No activity yet' }}</small>
+            </div>
+            <div class="module-card-actions">
+                <a href="{{ url_for(module['key']) }}">Open</a>
+                <a href="{{ url_for('exportCsv', moduleName=module['key']) }}">CSV</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<script id="global-dashboard-data" type="application/json">
+{{ {"modules": modules, "activity": activity}|tojson }}
+</script>
+{% endblock %}

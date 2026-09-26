@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Break-Even Analysis - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Break-Even Analysis</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Selling Price</th>
+            <th>Variable Cost per Unit</th>
+            <th>Fixed Cost</th>
+            <th>Quantity</th>
+            <th>Contribution Margin</th>
+            <th>Contribution Margin Ratio</th>
+            <th>Break Even Units</th>
+            <th>Break Even Sales</th>
+            <th>Profit</th>
+            <th>Total Revenue</th>
+            <th>Total Cost</th>
+            <th>Date</th>
+        </tr>
+        {% for row in bea %}
+            <tr>
+                <td>{% if row['sellingPrice'] is not none %}{{ row['sellingPrice']|round(4) if row['sellingPrice'] is number else row['sellingPrice'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['variableCostPerUnit'] is not none %}{{ row['variableCostPerUnit']|round(4) if row['variableCostPerUnit'] is number else row['variableCostPerUnit'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['fixedCost'] is not none %}{{ row['fixedCost']|round(4) if row['fixedCost'] is number else row['fixedCost'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['quantity'] is not none %}{{ row['quantity']|round(4) if row['quantity'] is number else row['quantity'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['contributionMargin'] is not none %}{{ row['contributionMargin']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['contributionMarginRatio'] is not none %}{{ row['contributionMarginRatio']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['breakEvenUnits'] is not none %}{{ row['breakEvenUnits']|round(4) if row['breakEvenUnits'] is number else row['breakEvenUnits'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['breakEvenSales'] is not none %}{{ row['breakEvenSales']|round(4) if row['breakEvenSales'] is number else row['breakEvenSales'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['profit'] is not none %}{{ row['profit']|round(4) if row['profit'] is number else row['profit'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalRevenue'] is not none %}{{ row['totalRevenue']|round(4) if row['totalRevenue'] is number else row['totalRevenue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalCost'] is not none %}{{ row['totalCost']|round(4) if row['totalCost'] is number else row['totalCost'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('bea') }}" method="POST">
+        <input type="number" name="sellingPrice" step="any" placeholder="Selling Price" required>
+        <input type="number" name="variableCostPerUnit" step="any" placeholder="Variable Cost per Unit" required>
+        <input type="number" name="fixedCost" step="any" placeholder="Fixed Cost" required>
+        <input type="number" name="quantity" step="any" placeholder="Quantity" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

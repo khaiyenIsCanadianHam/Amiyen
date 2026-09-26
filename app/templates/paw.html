@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Payroll and Wages - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Payroll and Wages</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Hourly Rate</th>
+            <th>Regular Hours</th>
+            <th>Overtime Rate</th>
+            <th>Overtime Hours</th>
+            <th>Taxes</th>
+            <th>Contributions</th>
+            <th>Other Deductions</th>
+            <th>Other Earnings</th>
+            <th>Gross Pay</th>
+            <th>Regular Pay</th>
+            <th>Overtime Pay</th>
+            <th>Net Pay</th>
+            <th>Total Deductions</th>
+            <th>Date</th>
+        </tr>
+        {% for row in paw %}
+            <tr>
+                <td>{% if row['hourlyRate'] is not none %}{{ row['hourlyRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['regularHours'] is not none %}{{ row['regularHours']|round(4) if row['regularHours'] is number else row['regularHours'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['overtimeRate'] is not none %}{{ row['overtimeRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['overtimeHours'] is not none %}{{ row['overtimeHours']|round(4) if row['overtimeHours'] is number else row['overtimeHours'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['taxes'] is not none %}{{ row['taxes']|round(4) if row['taxes'] is number else row['taxes'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['contributions'] is not none %}{{ row['contributions']|round(4) if row['contributions'] is number else row['contributions'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['otherDeductions'] is not none %}{{ row['otherDeductions']|round(4) if row['otherDeductions'] is number else row['otherDeductions'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['otherEarnings'] is not none %}{{ row['otherEarnings']|round(4) if row['otherEarnings'] is number else row['otherEarnings'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['grossPay'] is not none %}{{ row['grossPay']|round(4) if row['grossPay'] is number else row['grossPay'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['regularPay'] is not none %}{{ row['regularPay']|round(4) if row['regularPay'] is number else row['regularPay'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['overtimePay'] is not none %}{{ row['overtimePay']|round(4) if row['overtimePay'] is number else row['overtimePay'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['netPay'] is not none %}{{ row['netPay']|round(4) if row['netPay'] is number else row['netPay'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalDeductions'] is not none %}{{ row['totalDeductions']|round(4) if row['totalDeductions'] is number else row['totalDeductions'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('paw') }}" method="POST">
+        <input type="number" name="hourlyRate" step="any" placeholder="Hourly Rate" required>
+        <input type="number" name="regularHours" step="any" placeholder="Regular Hours" required>
+        <input type="number" name="overtimeRate" step="any" placeholder="Overtime Rate" required>
+        <input type="number" name="overtimeHours" step="any" placeholder="Overtime Hours" required>
+        <input type="number" name="taxes" step="any" placeholder="Taxes" required>
+        <input type="number" name="contributions" step="any" placeholder="Contributions" required>
+        <input type="number" name="otherDeductions" step="any" placeholder="Other Deductions" required>
+        <input type="number" name="otherEarnings" step="any" placeholder="Other Earnings" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

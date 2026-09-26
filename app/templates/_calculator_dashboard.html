@@ -1,0 +1,48 @@
+<section class="calculator-dashboard" data-dashboard-source=".data-source-table">
+    <div class="dashboard-heading-row">
+        <div>
+            <p class="eyebrow">Dashboard</p>
+            <h2>Latest results and history</h2>
+            <p class="dashboard-subtitle">The cards show the latest calculated values. The graphs are built from the saved history in this calculator.</p>
+        </div>
+        <div class="dashboard-actions">
+            <span class="record-count" data-record-count>0 records</span>
+            <a class="button secondary-button" href="{{ url_for('exportCsv', moduleName=request.endpoint) }}">Export CSV</a>
+        </div>
+    </div>
+
+    <div class="metric-grid" data-metric-grid></div>
+
+    <div class="chart-grid">
+        <article class="chart-card">
+            <div class="chart-card-heading">
+                <div>
+                    <p class="eyebrow">Trend</p>
+                    <h3 data-trend-title>History</h3>
+                </div>
+                <span>Last 30 records</span>
+            </div>
+            <div class="canvas-wrap">
+                <canvas class="history-chart" aria-label="Calculation history chart"></canvas>
+            </div>
+        </article>
+
+        <article class="chart-card">
+            <div class="chart-card-heading">
+                <div>
+                    <p class="eyebrow">Activity</p>
+                    <h3>Calculations by date</h3>
+                </div>
+                <span>Saved records</span>
+            </div>
+            <div class="canvas-wrap">
+                <canvas class="activity-chart" aria-label="Calculation activity chart"></canvas>
+            </div>
+        </article>
+    </div>
+
+    <div class="empty-dashboard" data-empty-dashboard hidden>
+        <h3>No saved calculations yet</h3>
+        <p>Submit a calculation below. Its latest values and history will appear here automatically.</p>
+    </div>
+</section>

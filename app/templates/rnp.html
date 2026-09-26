@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Ratios and Proportions - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Ratios and Proportions</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+            <th>D</th>
+            <th>Quantity</th>
+            <th>Units</th>
+            <th>K</th>
+            <th>X</th>
+            <th>Ratio</th>
+            <th>Proportion</th>
+            <th>Cross Multiplication</th>
+            <th>Unit Rate</th>
+            <th>Direct Variation</th>
+            <th>Inverse Variation</th>
+            <th>Date</th>
+        </tr>
+        {% for row in rnp %}
+            <tr>
+                <td>{% if row['a'] is not none %}{{ row['a']|round(4) if row['a'] is number else row['a'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['b'] is not none %}{{ row['b']|round(4) if row['b'] is number else row['b'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['c'] is not none %}{{ row['c']|round(4) if row['c'] is number else row['c'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['d'] is not none %}{{ row['d']|round(4) if row['d'] is number else row['d'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['quantity'] is not none %}{{ row['quantity']|round(4) if row['quantity'] is number else row['quantity'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['units'] is not none %}{{ row['units']|round(4) if row['units'] is number else row['units'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['k'] is not none %}{{ row['k']|round(4) if row['k'] is number else row['k'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['x'] is not none %}{{ row['x']|round(4) if row['x'] is number else row['x'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['ratio'] is not none %}{{ row['ratio']|round(4) if row['ratio'] is number else row['ratio'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['proportion'] is none %}N/A{% elif row['proportion'] %}True{% else %}False{% endif %}</td>
+                <td>{% if row['crossMultiplication'] is none %}N/A{% elif row['crossMultiplication'] %}True{% else %}False{% endif %}</td>
+                <td>{% if row['unitRate'] is not none %}{{ row['unitRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['directVariation'] is not none %}{{ row['directVariation']|round(4) if row['directVariation'] is number else row['directVariation'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['inverseVariation'] is not none %}{{ row['inverseVariation']|round(4) if row['inverseVariation'] is number else row['inverseVariation'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('rnp') }}" method="POST">
+        <input type="number" name="a" step="any" placeholder="A" required>
+        <input type="number" name="b" step="any" placeholder="B" required>
+        <input type="number" name="c" step="any" placeholder="C" required>
+        <input type="number" name="d" step="any" placeholder="D" required>
+        <input type="number" name="quantity" step="any" placeholder="Quantity" required>
+        <input type="number" name="units" step="any" placeholder="Units" required>
+        <input type="number" name="k" step="any" placeholder="K" required>
+        <input type="number" name="x" step="any" placeholder="X" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

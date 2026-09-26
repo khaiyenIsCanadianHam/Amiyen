@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Stocks and Bonds - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Stocks and Bonds</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Annual Dividend</th>
+            <th>Share Price</th>
+            <th>Annual Coupon</th>
+            <th>Bond Price</th>
+            <th>Dividend Yield</th>
+            <th>Current Bond Yield</th>
+            <th>Date</th>
+        </tr>
+        {% for row in sbo %}
+            <tr>
+                <td>{% if row['annualDividend'] is not none %}{{ row['annualDividend']|round(4) if row['annualDividend'] is number else row['annualDividend'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['sharePrice'] is not none %}{{ row['sharePrice']|round(4) if row['sharePrice'] is number else row['sharePrice'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['annualCoupon'] is not none %}{{ row['annualCoupon']|round(4) if row['annualCoupon'] is number else row['annualCoupon'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['bondPrice'] is not none %}{{ row['bondPrice']|round(4) if row['bondPrice'] is number else row['bondPrice'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['dividendYield'] is not none %}{{ row['dividendYield']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['currentBondYield'] is not none %}{{ row['currentBondYield']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('sbo') }}" method="POST">
+        <input type="number" name="annualDividend" step="any" placeholder="Annual Dividend" required>
+        <input type="number" name="sharePrice" step="any" placeholder="Share Price" required>
+        <input type="number" name="annualCoupon" step="any" placeholder="Annual Coupon" required>
+        <input type="number" name="bondPrice" step="any" placeholder="Bond Price" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

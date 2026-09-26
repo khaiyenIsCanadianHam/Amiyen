@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Markup and Markdown</h1>
+    <p>Enter the current selling price and markup. Amiyen will calculate the cost, markup rates, and compare the current selling price with the latest selling price in the database to identify a markdown.</p>
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Markup</th>
+            <th>Markup Rate on Cost</th>
+            <th>Markup Rate on Selling Price</th>
+            <th>Selling Price</th>
+            <th>Selling Price from Markup Rate</th>
+            <th>Cost</th>
+            <th>Markdown</th>
+            <th>Markdown Rate</th>
+            <th>Sale Price</th>
+            <th>Sale Price from Markdown Rate</th>
+            <th>Date</th>
+        </tr>
+        {% for row in mam %}
+            <tr>
+                <td>{% if row['markup'] is not none %}${{ row['markup']|round(2) }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['markupRateOnCost'] is not none %}{{ row['markupRateOnCost']|round(2) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['markupRateOnSellingPrice'] is not none %}{{ row['markupRateOnSellingPrice']|round(2) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['sellingPrice'] is not none %}${{ row['sellingPrice']|round(2) }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['sellingPriceFromMarkupRate'] is not none %}${{ row['sellingPriceFromMarkupRate']|round(2) }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['cost'] is not none %}${{ row['cost']|round(2) }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['markdown'] is not none %}${{ row['markdown']|round(2) }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['markdownRate'] is not none %}{{ row['markdownRate']|round(2) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['salePrice'] is not none %}${{ row['salePrice']|round(2) }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['salePriceFromMarkdownRate'] is not none %}${{ row['salePriceFromMarkdownRate']|round(2) }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <form action="{{ url_for('mam') }}" method="POST">
+        <input type="number" name="sellingPrice" step="any" placeholder="Selling Price" required>
+        <input type="number" name="markup" step="any" placeholder="Markup" required>
+        <input type="submit" value="Add Values">
+    </form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Taxes - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Taxes</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Gross Income</th>
+            <th>Allowable Deductions</th>
+            <th>Tax Rate</th>
+            <th>Other Deductions</th>
+            <th>Basic Tax</th>
+            <th>Taxable Income</th>
+            <th>Net Income</th>
+            <th>Date</th>
+        </tr>
+        {% for row in tax %}
+            <tr>
+                <td>{% if row['grossIncome'] is not none %}{{ row['grossIncome']|round(4) if row['grossIncome'] is number else row['grossIncome'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['allowableDeductions'] is not none %}{{ row['allowableDeductions']|round(4) if row['allowableDeductions'] is number else row['allowableDeductions'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['taxRate'] is not none %}{{ row['taxRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['otherDeductions'] is not none %}{{ row['otherDeductions']|round(4) if row['otherDeductions'] is number else row['otherDeductions'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['basicTax'] is not none %}{{ row['basicTax']|round(4) if row['basicTax'] is number else row['basicTax'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['taxableIncome'] is not none %}{{ row['taxableIncome']|round(4) if row['taxableIncome'] is number else row['taxableIncome'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['netIncome'] is not none %}{{ row['netIncome']|round(4) if row['netIncome'] is number else row['netIncome'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('tax') }}" method="POST">
+        <input type="number" name="grossIncome" step="any" placeholder="Gross Income" required>
+        <input type="number" name="allowableDeductions" step="any" placeholder="Allowable Deductions" required>
+        <input type="number" name="taxRate" step="any" placeholder="Tax Rate" required>
+        <input type="number" name="otherDeductions" step="any" placeholder="Other Deductions" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}
