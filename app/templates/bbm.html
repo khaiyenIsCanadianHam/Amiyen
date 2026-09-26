@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>My App</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Basic Business Math</h1>
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit inventore nisi perferendis sed, aliquid fugiat nemo quidem voluptate fugit velit nihil. Blanditiis eos deleniti commodi sunt perspiciatis, similique consequuntur odio.</p>
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Percentage</th>
+            <th>Rate</th>
+            <th>Base</th>
+            <th>Percentage Change</th>
+            <th>Percentage Increase</th>
+            <th>Percentage Decrease</th>
+            <th>Date</th>
+        </tr>
+        {% for row in bbm %}
+            <tr>
+                <td>${{ row['percentage'] if row['percentage'] is not none else 'N/A' }}</td>
+                <td>{{ (row['rate'] ~ '%') if row['rate'] is not none else 'N/A' }}</td>
+                <td>${{ row['base'] if row['base'] is not none else 'N/A' }}</td>
+                <td>{{ (row['percentageChange'] ~ '%') if row['percentageChange'] is not none else 'N/A' }}</td>
+                <td>{{ (row['percentIncrease'] ~ '%') if row['percentIncrease'] is not none else 'N/A' }}</td>
+                <td>{{ (row['percentDecrease'] ~ '%') if row['percentDecrease'] is not none else 'N/A' }}</td>
+                <td>{{ row['created_at'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <form action="/" method="POST">
+        <input type="number" name="percentage" step="any" placeholder="Percentage">
+        <input type="number" name="rate" step="any" placeholder="Rate">
+        <input type="number" name="base" step="any" placeholder="Base">
+        <input type="submit" value="Add Values">
+    </form>
+{% endblock %}

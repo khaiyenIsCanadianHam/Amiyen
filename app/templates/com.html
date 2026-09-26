@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Commission - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Commission</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Input Sales</th>
+            <th>Input Commission Rate</th>
+            <th>Salary</th>
+            <th>Commission</th>
+            <th>Total Earnings</th>
+            <th>Commission Rate</th>
+            <th>Sales</th>
+            <th>Date</th>
+        </tr>
+        {% for row in com %}
+            <tr>
+                <td>{% if row['inputSales'] is not none %}{{ row['inputSales']|round(4) if row['inputSales'] is number else row['inputSales'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['inputCommissionRate'] is not none %}{{ row['inputCommissionRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['salary'] is not none %}{{ row['salary']|round(4) if row['salary'] is number else row['salary'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['commission'] is not none %}{{ row['commission']|round(4) if row['commission'] is number else row['commission'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalEarnings'] is not none %}{{ row['totalEarnings']|round(4) if row['totalEarnings'] is number else row['totalEarnings'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['commissionRate'] is not none %}{{ row['commissionRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['sales'] is not none %}{{ row['sales']|round(4) if row['sales'] is number else row['sales'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('com') }}" method="POST">
+        <input type="number" name="sales" step="any" placeholder="Sales" required>
+        <input type="number" name="commissionRate" step="any" placeholder="Commission Rate" required>
+        <input type="number" name="salary" step="any" placeholder="Salary" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

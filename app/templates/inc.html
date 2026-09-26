@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Insurance - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Insurance</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Face Value</th>
+            <th>Rate</th>
+            <th>Annual Premium</th>
+            <th>Short-Rate Factor</th>
+            <th>Insurance Premium</th>
+            <th>Short-Rate Premium</th>
+            <th>Date</th>
+        </tr>
+        {% for row in inc %}
+            <tr>
+                <td>{% if row['faceValue'] is not none %}{{ row['faceValue']|round(4) if row['faceValue'] is number else row['faceValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['rate'] is not none %}{{ row['rate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['annualPremium'] is not none %}{{ row['annualPremium']|round(4) if row['annualPremium'] is number else row['annualPremium'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['shortRateFactor'] is not none %}{{ row['shortRateFactor']|round(4) if row['shortRateFactor'] is number else row['shortRateFactor'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['insurancePremium'] is not none %}{{ row['insurancePremium']|round(4) if row['insurancePremium'] is number else row['insurancePremium'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['shortRatePremium'] is not none %}{{ row['shortRatePremium']|round(4) if row['shortRatePremium'] is number else row['shortRatePremium'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('inc') }}" method="POST">
+        <input type="number" name="faceValue" step="any" placeholder="Face Value" required>
+        <input type="number" name="rate" step="any" placeholder="Rate" required>
+        <input type="number" name="annualPremium" step="any" placeholder="Annual Premium" required>
+        <input type="number" name="shortRateFactor" step="any" placeholder="Short-Rate Factor" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

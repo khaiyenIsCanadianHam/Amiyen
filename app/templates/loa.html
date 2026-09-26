@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Loans - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Loans</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Principal</th>
+            <th>Periodic Rate</th>
+            <th>Periods</th>
+            <th>Payments Made</th>
+            <th>Periodical Loan Payment</th>
+            <th>Loan Payment</th>
+            <th>Total Payment</th>
+            <th>Total Interest</th>
+            <th>Outstanding Balance</th>
+            <th>Date</th>
+        </tr>
+        {% for row in loa %}
+            <tr>
+                <td>{% if row['principal'] is not none %}{{ row['principal']|round(4) if row['principal'] is number else row['principal'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['periodicRate'] is not none %}{{ row['periodicRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['periods'] is not none %}{{ row['periods']|round(4) if row['periods'] is number else row['periods'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['paymentsMade'] is not none %}{{ row['paymentsMade']|round(4) if row['paymentsMade'] is number else row['paymentsMade'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['periodicalLoanPayment'] is not none %}{{ row['periodicalLoanPayment']|round(4) if row['periodicalLoanPayment'] is number else row['periodicalLoanPayment'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['loanPayment'] is not none %}{{ row['loanPayment']|round(4) if row['loanPayment'] is number else row['loanPayment'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalPayment'] is not none %}{{ row['totalPayment']|round(4) if row['totalPayment'] is number else row['totalPayment'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['totalInterest'] is not none %}{{ row['totalInterest']|round(4) if row['totalInterest'] is number else row['totalInterest'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['outstandingBalance'] is not none %}{{ row['outstandingBalance']|round(4) if row['outstandingBalance'] is number else row['outstandingBalance'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('loa') }}" method="POST">
+        <input type="number" name="principal" step="any" placeholder="Principal" required>
+        <input type="number" name="periodicRate" step="any" placeholder="Periodic Rate" required>
+        <input type="number" name="periods" step="any" placeholder="Periods" required>
+        <input type="number" name="paymentsMade" step="any" placeholder="Payments Made" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

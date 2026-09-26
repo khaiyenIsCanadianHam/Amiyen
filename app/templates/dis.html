@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Discounts - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Discounts</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>List Price</th>
+            <th>Discount Rate</th>
+            <th>Second Discount Rate</th>
+            <th>Trade Discount</th>
+            <th>Net Price</th>
+            <th>Net Price Equivalent</th>
+            <th>Calculated Discount Rate</th>
+            <th>Series Discount</th>
+            <th>Equivalent Discount</th>
+            <th>Date</th>
+        </tr>
+        {% for row in dis %}
+            <tr>
+                <td>{% if row['listPrice'] is not none %}{{ row['listPrice']|round(4) if row['listPrice'] is number else row['listPrice'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['discountRate'] is not none %}{{ row['discountRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['secondDiscountRate'] is not none %}{{ row['secondDiscountRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['tradeDiscount'] is not none %}{{ row['tradeDiscount']|round(4) if row['tradeDiscount'] is number else row['tradeDiscount'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['netPrice'] is not none %}{{ row['netPrice']|round(4) if row['netPrice'] is number else row['netPrice'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['netPriceEquivalent'] is not none %}{{ row['netPriceEquivalent']|round(4) if row['netPriceEquivalent'] is number else row['netPriceEquivalent'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['calculatedDiscountRate'] is not none %}{{ row['calculatedDiscountRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['seriesDiscount'] is not none %}{{ row['seriesDiscount']|round(4) if row['seriesDiscount'] is number else row['seriesDiscount'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['equivalentDiscount'] is not none %}{{ row['equivalentDiscount']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('dis') }}" method="POST">
+        <input type="number" name="listPrice" step="any" placeholder="List Price" required>
+        <input type="number" name="discountRate" step="any" placeholder="Discount Rate" required>
+        <input type="number" name="secondDiscountRate" step="any" placeholder="Second Discount Rate" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

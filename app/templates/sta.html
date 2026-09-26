@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Statistics - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Statistics</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Values</th>
+            <th>Weights</th>
+            <th>Mean</th>
+            <th>Weighted Mean</th>
+            <th>Range</th>
+            <th>Population Variance</th>
+            <th>Population Standard Deviation</th>
+            <th>Population Mean</th>
+            <th>Sample Mean</th>
+            <th>Median</th>
+            <th>Mode</th>
+            <th>Sample Variance</th>
+            <th>Sample Standard Deviation</th>
+            <th>Date</th>
+        </tr>
+        {% for row in sta %}
+            <tr>
+                <td>{{ row['valuesInput'] if row['valuesInput'] is not none else 'N/A' }}</td>
+                <td>{{ row['weightsInput'] if row['weightsInput'] is not none else 'N/A' }}</td>
+                <td>{% if row['mean'] is not none %}{{ row['mean']|round(4) if row['mean'] is number else row['mean'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['weightedMean'] is not none %}{{ row['weightedMean']|round(4) if row['weightedMean'] is number else row['weightedMean'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['rangeValue'] is not none %}{{ row['rangeValue']|round(4) if row['rangeValue'] is number else row['rangeValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['populationVariance'] is not none %}{{ row['populationVariance']|round(4) if row['populationVariance'] is number else row['populationVariance'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['populationStandardDeviation'] is not none %}{{ row['populationStandardDeviation']|round(4) if row['populationStandardDeviation'] is number else row['populationStandardDeviation'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['populationMean'] is not none %}{{ row['populationMean']|round(4) if row['populationMean'] is number else row['populationMean'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['sampleMean'] is not none %}{{ row['sampleMean']|round(4) if row['sampleMean'] is number else row['sampleMean'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['median'] is not none %}{{ row['median']|round(4) if row['median'] is number else row['median'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['mode'] is not none %}{{ row['mode']|round(4) if row['mode'] is number else row['mode'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['sampleVariance'] is not none %}{{ row['sampleVariance']|round(4) if row['sampleVariance'] is number else row['sampleVariance'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['sampleStandardDeviation'] is not none %}{{ row['sampleStandardDeviation']|round(4) if row['sampleStandardDeviation'] is number else row['sampleStandardDeviation'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('sta') }}" method="POST">
+        <input type="text" name="values" placeholder="Values: 100, 120, 150" required>
+        <input type="text" name="weights" placeholder="Weights: optional comma-separated values">
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

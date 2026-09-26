@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    {% block head %}{% endblock %}
+</head>
+<body>
+<nav class="top-nav">
+    <button class="nav-arrow" id="nav-left">&lt;</button>
+    <div class="nav-links" id="nav-links">
+        <a class="dashboard-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('bbm') }}">Basic Business Math</a>
+        <a href="{{ url_for('mam') }}">Markup and Markdown</a>
+        <a href="{{ url_for('dis') }}">Discounts</a>
+        <a href="{{ url_for('pnl') }}">Profit and Loss</a>
+        <a href="{{ url_for('sin') }}">Simple Interest</a>
+        <a href="{{ url_for('cin') }}">Compound Interest</a>
+        <a href="{{ url_for('ann') }}">Annuities</a>
+        <a href="{{ url_for('loa') }}">Loans</a>
+        <a href="{{ url_for('pfv') }}">Present and Future Value</a>
+        <a href="{{ url_for('dep') }}">Depreciation</a>
+        <a href="{{ url_for('com') }}">Commission</a>
+        <a href="{{ url_for('paw') }}">Payroll and Wages</a>
+        <a href="{{ url_for('tax') }}">Taxes</a>
+        <a href="{{ url_for('bea') }}">Break-Even Analysis</a>
+        <a href="{{ url_for('brc') }}">Business Revenue and Cost</a>
+        <a href="{{ url_for('rnp') }}">Ratios and Proportions</a>
+        <a href="{{ url_for('sta') }}">Statistics</a>
+        <a href="{{ url_for('pro') }}">Probability</a>
+        <a href="{{ url_for('prc') }}">Percentage and Rate Conversions</a>
+        <a href="{{ url_for('fra') }}">Financial Ratios</a>
+        <a href="{{ url_for('cbu') }}">Capital Budgeting</a>
+        <a href="{{ url_for('sbo') }}">Stocks and Bonds</a>
+        <a href="{{ url_for('inc') }}">Insurance</a>
+        <a href="{{ url_for('pno') }}">Promissory Notes</a>
+    </div>
+    <button class="nav-arrow" id="nav-right">&gt;</button>
+</nav>
+<main>
+    {% block body %}{% endblock %}
+</main>
+</body>
+</html>

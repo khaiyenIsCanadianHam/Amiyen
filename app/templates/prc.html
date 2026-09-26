@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Percentage and Rate Conversions - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Percentage and Rate Conversions</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Input Decimal</th>
+            <th>Input Percentage</th>
+            <th>Input Fraction</th>
+            <th>Annual Rate</th>
+            <th>Decimal To Percentage</th>
+            <th>Percentage To Decimal</th>
+            <th>Percentage To Fraction</th>
+            <th>Fraction To Percentage</th>
+            <th>Monthly Rate</th>
+            <th>Quarterly Rate</th>
+            <th>Semiannual Rate</th>
+            <th>Date</th>
+        </tr>
+        {% for row in prc %}
+            <tr>
+                <td>{% if row['inputDecimal'] is not none %}{{ row['inputDecimal']|round(4) if row['inputDecimal'] is number else row['inputDecimal'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['inputPercentage'] is not none %}{{ row['inputPercentage']|round(4) if row['inputPercentage'] is number else row['inputPercentage'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['inputFraction'] is not none %}{{ row['inputFraction']|round(4) if row['inputFraction'] is number else row['inputFraction'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['annualRate'] is not none %}{{ row['annualRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['decimalToPercentage'] is not none %}{{ row['decimalToPercentage']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['percentageToDecimal'] is not none %}{{ row['percentageToDecimal']|round(4) if row['percentageToDecimal'] is number else row['percentageToDecimal'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['percentageToFraction'] is not none %}{{ row['percentageToFraction']|round(4) if row['percentageToFraction'] is number else row['percentageToFraction'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['fractionToPercentage'] is not none %}{{ row['fractionToPercentage']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['monthlyRate'] is not none %}{{ row['monthlyRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['quarterlyRate'] is not none %}{{ row['quarterlyRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['semiannualRate'] is not none %}{{ row['semiannualRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('prc') }}" method="POST">
+        <input type="number" name="decimal" step="any" placeholder="Decimal" required>
+        <input type="number" name="percentage" step="any" placeholder="Percentage" required>
+        <input type="number" name="fraction" step="any" placeholder="Fraction" required>
+        <input type="number" name="annualRate" step="any" placeholder="Annual Rate" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}

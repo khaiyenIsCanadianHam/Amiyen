@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Promissory Notes - Amiyen</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Promissory Notes</h1>
+    <p>Enter the required values below. Rates are entered as normal percentages, so 25 means 25%.</p>
+    <div class="table-container">
+    {% include "_calculator_dashboard.html" %}
+    <table class="data-source-table" hidden>
+        <tr>
+            <th>Principal</th>
+            <th>Rate</th>
+            <th>Time</th>
+            <th>Discount Rate</th>
+            <th>Maturity Value</th>
+            <th>Bank Discount</th>
+            <th>Proceeds</th>
+            <th>Date</th>
+        </tr>
+        {% for row in pno %}
+            <tr>
+                <td>{% if row['principal'] is not none %}{{ row['principal']|round(4) if row['principal'] is number else row['principal'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['rate'] is not none %}{{ row['rate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['time'] is not none %}{{ row['time']|round(4) if row['time'] is number else row['time'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['discountRate'] is not none %}{{ row['discountRate']|round(4) }}%{% else %}N/A{% endif %}</td>
+                <td>{% if row['maturityValue'] is not none %}{{ row['maturityValue']|round(4) if row['maturityValue'] is number else row['maturityValue'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['bankDiscount'] is not none %}{{ row['bankDiscount']|round(4) if row['bankDiscount'] is number else row['bankDiscount'] }}{% else %}N/A{% endif %}</td>
+                <td>{% if row['proceeds'] is not none %}{{ row['proceeds']|round(4) if row['proceeds'] is number else row['proceeds'] }}{% else %}N/A{% endif %}</td>
+                <td>{{ row['created_at'] if row['created_at'] is not none else 'N/A' }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <form action="{{ url_for('pno') }}" method="POST">
+        <input type="number" name="principal" step="any" placeholder="Principal" required>
+        <input type="number" name="rate" step="any" placeholder="Rate" required>
+        <input type="number" name="time" step="any" placeholder="Time" required>
+        <input type="number" name="discountRate" step="any" placeholder="Discount Rate" required>
+        <input type="submit" value="Calculate">
+    </form>
+{% endblock %}
