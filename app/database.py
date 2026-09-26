@@ -277,3 +277,14 @@ def initialize_database():
     conn.close()    
     print(f"Database initialized: {db_path}")
     return db_path
+
+def updateBbm_db(percentage, rate, base, percentChange, percentIncrease, percentDecrease, dbPath):
+        conn = sqlite3.connect(dbPath)
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO bbm_db (percentage, rate, base, percentageChange, percentIncrease, percentDecrease)
+            VALUES (?, ?, ?, ?, ?, ?) 
+        """, (percentage, rate, base, percentChange, percentIncrease, percentDecrease)) 
+        conn.commit()
+        conn.close()
+        return 0

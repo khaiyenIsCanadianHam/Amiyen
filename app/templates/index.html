@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Welcome to My App</h1>
-    <p>This is the basic dashboard page.</p>
+    <h1>Basic Business Math</h1>
+    <p>This is the basic business dashboard page.</p>
     <table>
         <tr>
             <th>Percentage</th>
@@ -17,21 +17,22 @@
             <th>Percentage Decrease</th>
             <th>Date</th>
         </tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+        {% for row in bbm %}
+            <tr>
+                <td>${{ row['percentage'] if row['percentage'] is not none else 'N/A' }}</td>
+                <td>{{ (row['rate'] ~ '%') if row['rate'] is not none else 'N/A' }}</td>
+                <td>${{ row['base'] if row['base'] is not none else 'N/A' }}</td>
+                <td>{{ (row['percentageChange'] ~ '%') if row['percentageChange'] is not none else 'N/A' }}</td>
+                <td>{{ (row['percentIncrease'] ~ '%') if row['percentIncrease'] is not none else 'N/A' }}</td>
+                <td>{{ (row['percentDecrease'] ~ '%') if row['percentDecrease'] is not none else 'N/A' }}</td>
+                <td>{{ row['created_at'] }}</td>
+            </tr>
+        {% endfor %}
     </table>
     <form action="/" method="POST">
-        <input type="number" name="percentage" step="any">
-        <input type="number" name="rate" step="any">
-        <input type="number" name="base" step="any">
-        <input type="number" name="percentageChange" step="any">
-        <input type="number" name="percentageIncrease" step="any">
-        <input type="number" name="percentageDecrease" step="any">
+        <input type="number" name="percentage" step="any" placeholder="Percentage">
+        <input type="number" name="rate" step="any" placeholder="Rate">
+        <input type="number" name="base" step="any" placeholder="Base">
         <input type="submit" value="Add Values">
     </form>
 {% endblock %}

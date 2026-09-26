@@ -1,29 +1,69 @@
 import statistics
 import numpy_financial
+import sqlite3
 
 def calcPercentage(rate, base):
-    percentage = rate*base
+    percentage = (rate / 100) * base
     return percentage
 
 def calcRate(percentage, base):
-    rate = percentage/base
+    rate = (percentage / base) * 100
     return rate
 
 def calcBase(percentage, rate):
-    base = percentage / rate
+    base = percentage / (rate / 100)
     return base
 
-def calcPercentageChange(new, old):
-    change = (new - old) / old * 100
+def calcPercentageChange(dbPath, new):
+    conn = sqlite3.connect(dbPath)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT percentage
+        FROM bbm_db
+        ORDER BY id DESC
+        LIMIT 1
+    """)
+    row = cursor.fetchone()
+    old = row["percentage"]
+    change = ((new - old) / old) * 100
     return change
 
-def calcPercentIncrease(increase, original):
-    increaseRate = increase / original * 100
-    return increaseRate
+def calcPercentIncrease(increase, dbPath):
+    conn = sqlite3.connect(dbPath)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT percentage
+        FROM bbm_db
+        ORDER BY id DESC
+        LIMIT 1
+        """)
+    row = cursor.fetchone()
+    original = row["percentage"]
+    if original >= increase:
+        return 0
+    else:
+        increaseRate = ((increase - original) / original) * 100
+        return increaseRate
 
-def calcPercentDecrease(decrease, original):
-    decreaseRate = decrease / original * 100
-    return decreaseRate
+def calcPercentDecrease(decrease, dbPath):
+    conn = sqlite3.connect(dbPath)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT percentage
+        FROM bbm_db
+        ORDER BY id DESC
+        LIMIT 1
+        """)
+    row = cursor.fetchone()
+    original = row["percentage"]
+    if decrease >= original:
+        return 0
+    else:
+        decreaseRate = ((original - decrease) / original) * 100
+        return decreaseRate
 
 def calcMarkup(sellingPrice, cost):
     markup = sellingPrice - cost
@@ -165,7 +205,7 @@ def calcEffectiveAnualRate(rate, n):
     effectiveAnualRate = (1 + rate/n) ** n - 1
     return effectiveAnualRate
 
-def calcFutureValueOfOrdinaryAnnuity(payment, rate, time, n, i):
+def calcFutureValueOfOrdinaryAnnuity(payment, n, i):
     futureValueOfOrdinaryAnnuity = payment * ((1 + i) ** n - 1) / i
     return futureValueOfOrdinaryAnnuity
 
@@ -481,8 +521,8 @@ def calcNetPresentValue(cashFlows, discountRate, initialInvestment):
     npv = sum(cf / (1 + discountRate) ** t for t, cf in enumerate(cashFlows, start=1)) - initialInvestment
     return npv
 
-def calcInternalRateOfReturn(cashFlows, initialInvestment):
-    irr = numpy_financial.irr(cashFlows)
+def calcInternalRateOfReturn(cashFlows):
+    irr = numpy_financial.irr(cashFlows)   
     return irr
 
 def calcPaybackPeriod(initialInvestment, annualCashInflows):
